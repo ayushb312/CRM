@@ -1,0 +1,70 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="/">Add Lead</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/followups">View Followups</a>
+            </li>
+        </ul>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Add New Lead</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_lead') }}">
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Team Member</label>
+                        <select class="form-select" id="user" name="user" required>
+                            <option value="">Select Team Member</option>
+                            {% for member in team_members %}
+                                <option value="{{ member }}">{{ member }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" id="mobile" name="mobile" 
+                               pattern="\d{10}|\d{12}" required>
+                        <div class="form-text">Enter 10 or 12 digits only</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="followup_date" class="form-label">Followup Date</label>
+                        <input type="date" class="form-control" id="followup_date" 
+                               name="followup_date" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea class="form-control" id="remarks" name="remarks" 
+                                  rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Lead</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

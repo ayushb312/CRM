@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Portal - Followups</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Add Lead</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/followups">View Followups</a>
+            </li>
+        </ul>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Search Followups</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('followups') }}" class="row g-3">
+                    <div class="col-md-5">
+                        <select class="form-select" name="user">
+                            <option value="">All Team Members</option>
+                            {% for member in team_members %}
+                                <option value="{{ member }}">{{ member }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="date" class="form-control" name="date">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </form>
+
+                <div class="mt-4">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Team Member</th>
+                                <th>Mobile</th>
+                                <th>Followup Date</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for followup in followups %}
+                                <tr>
+                                    <td>{{ followup.user }}</td>
+                                    <td>{{ followup.mobile }}</td>
+                                    <td>{{ followup.followup_date.strftime('%Y-%m-%d') }}</td>
+                                    <td>{{ followup.remarks }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
